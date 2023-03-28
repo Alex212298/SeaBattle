@@ -30,7 +30,7 @@ class Board:
     def out(self, d):
         return not((0 <= d.x < self.size) and (0 <= d.y < self.size))
 
-    def contour(self, ship, verb=True):#makes contour of ship
+    def contour(self, ship, verb=False):#makes contour of ship
         near = [
             (-1, -1), (-1, 0), (-1, 1),
             (0, -1), (0, 0), (0, 1),
@@ -177,4 +177,44 @@ class Game:
               f"{txt_5:^30}\n"
               f"{txt_6:^30}\n"
               f"{txt_7:^30}")
-Game().greet()
+
+    def loop(self):
+        num = 0
+        while True:
+            print("-"*30)
+            print("Доска пользователя:")
+            print(self.us.board)
+            print("-"*30)
+            print("Доска компьютера:")
+            print(self.ai.board)
+            print("-"*30)
+
+            if num % 2 == 0:
+                print("Ходит пользователь!")
+                repeat = self.us.move()
+
+            else:
+                print("Ходит компьютер!")
+                repeat = self.ai.move()
+
+            if repeat:
+                num -= 1
+
+            if self.ai.board.count == 7:
+                print("-"*30)
+                print("Пользователь выиграл!")
+                break
+
+            if self.us.board.count == 7:
+                print("-"*30)
+                print("Компьютер выиграл!")
+                break
+            num += 1
+    def start(self):
+        self.greet()
+        self.loop()
+
+
+if __name__ == "__main__":
+    g = Game()
+    g.start()
